@@ -1,0 +1,79 @@
+<head>
+    <script defer src="js/fuel-cost.js"></script>
+</head>
+<body>
+    <%- include('./nav.ejs') %>
+    <div class="main">
+        <form action="" class="">
+            <div class="d-flex flex-row form-control pb-4">
+                <label for="price-per-litre" class="calc-label">Price per litre</label>
+                <input id="price-per-litre" name="price-per-litre" type="number" required>
+            </div>
+            <div class="d-flex flex-row form-control pb-4">
+                <label class="calc-label">Distance Passed (km)</label>
+                <div class="input-group input-group-sm elem-with-span">
+                    <input id="distance-passed" type="number" aria-describedby="basic-addon2" onchange="modifyDistancePassed()" required>
+                    <span class="input-group-text" id="basic-addon2">km</span>
+                </div>
+            </div>
+            <div class="d-flex flex-row form-control">
+                <div class="d-flex flex-column">
+                    <label class="calc-label">Consumption per 100km</label>
+                    <a href="#" class="link-underline-primary" data-bs-toggle="modal" data-bs-target="#calcConsumptionModal">
+                        Don't know?
+                    </a>
+                      
+                    <div class="modal fade" id="calcConsumptionModal" tabindex="-1" aria-labelledby="calcConsumptionModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="calcConsumptionModalLabel">Consumption per 100km</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div>
+                                        <label class="calc-label">Fuel used (litres)</label>
+                                        <div class="input-group mb-3 ">
+                                            <input id="fuel-used" type="number" class="form-control" aria-describedby="basic-addon2">
+                                            <span class="input-group-text" id="basic-addon2">litres</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="calc-label">Distance Passed (km)</label>
+                                        <div class="input-group mb-3">
+                                            <input id="cons-distance-passed" type="number" aria-describedby="basic-addon2" class="form-control" >
+                                            <span class="input-group-text" id="basic-addon2">km</span>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary mt-2" onclick="getConsumption()">Get Consumption</button>
+                                    <div class="mt-2 mb-1">
+                                        <input id="consumption-result" placeholder="Result" disabled type="number">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input id="consumption" type="number" class="align-self-start" required>
+            </div>
+            <div class="d-flex flex-row form-control pb-4">
+                <label class="passengers calc-label">Number of passengers</label>
+                <input id="passengers-number" type="number" value="1" required>
+            </div>
+            <div>
+                <button class="btn btn-primary mt-2 mb-2" onclick="calculateFuelCost()" type="submit">Calculate</button>
+                <div>
+                    <input id="final-result" placeholder="Total fuel cost..." disabled type="number">
+                </div>
+            </div>
+        </form>
+        <div id="payment-schema" class="mt-3 inactive-payment-schema">
+            <p>Each person has to pay the below price</p>
+            <div id="has-to-pay-container">
+            </div>
+        </div>
+    </div>
+</body>
