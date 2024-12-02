@@ -7,12 +7,12 @@
         <form action="" class="">
             <div class="fuel-cost-field form-control pb-4">
                 <label for="price-per-litre" class="calc-label">Price per litre</label>
-                <input id="price-per-litre" name="price-per-litre" type="number">
+                <input id="price-per-litre" name="price-per-litre" type="number" step="any">
             </div>
             <div class="fuel-cost-field form-control pb-4">
                 <label class="calc-label">Distance Passed (km)</label>
                 <div class="input-group input-group-sm elem-with-span">
-                    <input id="distance-passed" type="number" aria-describedby="basic-addon2" onchange="modifyDistancePassed()">
+                    <input id="distance-passed" type="number" aria-describedby="basic-addon2" onchange="modifyDistancePassed()" step="any">
                     <span class="input-group-text" id="basic-addon2">km</span>
                 </div>
             </div>
@@ -34,20 +34,20 @@
                                     <div>
                                         <label class="calc-label">Fuel used (litres)</label>
                                         <div class="input-group mb-3 ">
-                                            <input id="fuel-used" type="number" class="form-control" aria-describedby="basic-addon2">
+                                            <input id="fuel-used" type="number" class="form-control" aria-describedby="basic-addon2" step="any">
                                             <span class="input-group-text" id="basic-addon2">litres</span>
                                         </div>
                                     </div>
                                     <div>
                                         <label class="calc-label">Distance Passed (km)</label>
                                         <div class="input-group mb-3">
-                                            <input id="cons-distance-passed" type="number" aria-describedby="basic-addon2" class="form-control" >
+                                            <input id="cons-distance-passed" type="number" aria-describedby="basic-addon2" class="form-control" step="any">
                                             <span class="input-group-text" id="basic-addon2">km</span>
                                         </div>
                                     </div>
                                     <button type="button" class="btn btn-primary mt-2" onclick="getConsumption()">Get Consumption</button>
                                     <div class="mt-2 mb-1">
-                                        <input id="consumption-result" placeholder="Result" disabled type="number">
+                                        <input id="consumption-result" placeholder="Result" disabled type="number" step="any">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -57,14 +57,14 @@
                         </div>
                     </div>
                 </div>
-                <input id="consumption" type="number" class="align-self-start">
+                <input id="consumption" type="number" class="align-self-start" step="any">
             </div>
             <div class="fuel-cost-field form-control pb-4">
                 <label class="passengers calc-label">Number of passengers</label>
                 <input id="passengers-number" type="number" value="1">
             </div>
             <div>
-                <button class="btn btn-primary mt-2 mb-2" onclick="calculateFuelCost()" type="submit">Calculate</button>
+                <button class="btn btn-primary mt-2 mb-2" onclick="calculateFuelCost(event)" type="submit">Calculate</button>
                 <div>
                     <input id="final-result" placeholder="Total fuel cost..." disabled type="number">
                 </div>

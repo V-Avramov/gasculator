@@ -1,4 +1,5 @@
-function calculateFuelCost() {
+function calculateFuelCost(e) {
+    e.preventDefault();
     const pricePerLitre = document.getElementById('price-per-litre').value;
     const distancePassed = document.getElementById('distance-passed').value;
     const consumption = document.getElementById('consumption').value;
