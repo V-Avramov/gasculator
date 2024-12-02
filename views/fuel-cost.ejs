@@ -5,18 +5,18 @@
     <%- include('./nav.ejs') %>
     <div class="main">
         <form action="" class="">
-            <div class="d-flex flex-row form-control pb-4">
+            <div class="fuel-cost-field form-control pb-4">
                 <label for="price-per-litre" class="calc-label">Price per litre</label>
-                <input id="price-per-litre" name="price-per-litre" type="number" required>
+                <input id="price-per-litre" name="price-per-litre" type="number">
             </div>
-            <div class="d-flex flex-row form-control pb-4">
+            <div class="fuel-cost-field form-control pb-4">
                 <label class="calc-label">Distance Passed (km)</label>
                 <div class="input-group input-group-sm elem-with-span">
-                    <input id="distance-passed" type="number" aria-describedby="basic-addon2" onchange="modifyDistancePassed()" required>
+                    <input id="distance-passed" type="number" aria-describedby="basic-addon2" onchange="modifyDistancePassed()">
                     <span class="input-group-text" id="basic-addon2">km</span>
                 </div>
             </div>
-            <div class="d-flex flex-row form-control">
+            <div class="fuel-cost-field form-control">
                 <div class="d-flex flex-column">
                     <label class="calc-label">Consumption per 100km</label>
                     <a href="#" class="link-underline-primary" data-bs-toggle="modal" data-bs-target="#calcConsumptionModal">
@@ -57,11 +57,11 @@
                         </div>
                     </div>
                 </div>
-                <input id="consumption" type="number" class="align-self-start" required>
+                <input id="consumption" type="number" class="align-self-start">
             </div>
-            <div class="d-flex flex-row form-control pb-4">
+            <div class="fuel-cost-field form-control pb-4">
                 <label class="passengers calc-label">Number of passengers</label>
-                <input id="passengers-number" type="number" value="1" required>
+                <input id="passengers-number" type="number" value="1">
             </div>
             <div>
                 <button class="btn btn-primary mt-2 mb-2" onclick="calculateFuelCost()" type="submit">Calculate</button>

@@ -1,15 +1,12 @@
 .main {
-    margin-left: 10em;
-    margin-right: 10em;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
-.calc-label {
-    width: 20em;
-}
-
-.elem-with-span {
-    width: 80% !important;
-    border: 10px !important;
+.fuel-cost-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .form-control input {
@@ -39,4 +36,29 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+.input-group:has(input#distance-passed) {
+    width: max-content !important;
+}
+
+@media (min-width: 900px) {
+    .main {
+        margin-left: 5em;
+        margin-right: 5em;
+    }
+
+    .elem-with-span {
+        width: 80% !important;
+        border: 10px !important;
+    }
+
+    .fuel-cost-field {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .calc-label {
+        width: 20em;
+    }
 }
