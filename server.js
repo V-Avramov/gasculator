@@ -11,7 +11,7 @@ app.use('/img', express.static(__dirname + '/public/img/'));
 app.use('/src', express.static(__dirname + '/src/'));
 const calc = require('./src/routing/calc');
 try {
-    app.get('/', (req, res) => calc.homeScreen(req, res));
+    app.get('/', (req, res) => calc.fuelCostScreen(req, res));
     app.get('/fuel-cost', (req, res) => calc.fuelCostScreen(req, res));
     app.listen(9000);
 } catch (error) {
