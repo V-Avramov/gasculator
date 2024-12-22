@@ -65,8 +65,10 @@
             </div>
             <div>
                 <button class="btn btn-primary mt-2 mb-2" onclick="calculateFuelCost(event)" type="submit">Calculate</button>
-                <div>
+                <div class="d-flex flex-column">
+                    <label id="label-final-result" class="d-none" for="">Total fuel cost:</label>
                     <input id="final-result" placeholder="Total fuel cost..." disabled type="number">
+                    <p id="on-average" class="d-none">On average each person has to pay: <b id="on-average-price"></b></p>
                 </div>
             </div>
         </form>

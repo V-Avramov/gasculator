@@ -7,10 +7,14 @@ function calculateFuelCost(e) {
 
     const totalPrice = (distancePassed / 100) * consumption * pricePerLitre
     let priceAsMoney = formatAsMoneyFull(totalPrice, true);
+    document.getElementById('label-final-result').classList.remove('d-none');
     document.getElementById('final-result').value = priceAsMoney;
 
+    const onAveragePayment = priceAsMoney / passengersNumber;
+    document.getElementById('on-average').classList.remove('d-none');
+    document.getElementById('on-average-price').innerHTML = onAveragePayment;
+
     const passengersPayment = getPassengersPayment(priceAsMoney, passengersNumber);
-    console.log(passengersPayment);
     const hasToPay = document.getElementById('has-to-pay-container');
     hasToPay.innerHTML = '';
     for (const pass of passengersPayment) {
@@ -29,13 +33,9 @@ function calculateFuelCost(e) {
 }
 
 function getPassengersPayment(totalPrice, passengersNumber) {
-    console.log(totalPrice);
     const divPrice = totalPrice / passengersNumber;
-    console.log(divPrice);
     const fixedDivPrice = formatAsMoneyFull((Math.floor(Number(divPrice) * 100) / 100), true);
-    console.log(fixedDivPrice);
     let remainerAfterSubtract = Math.floor(Number((totalPrice - (fixedDivPrice * passengersNumber))) * 100);
-    console.log(remainerAfterSubtract);
     if (remainerAfterSubtract > passengersNumber) {
         console.error("Problem", passengersNumber, remainerAfterSubtract);
     }
@@ -43,18 +43,14 @@ function getPassengersPayment(totalPrice, passengersNumber) {
     for (let i = 0; i < passengersNumber; i++) {
         let payingSum = fixedDivPrice * 100;
         let is_paying_more = false;
-        console.log(payingSum);
         if (remainerAfterSubtract > 0) {
             payingSum += 1;
             is_paying_more = true;
             remainerAfterSubtract--;
         }
-        console.log("BEFORE", payingSum);
         payingSum = (payingSum / 100).toFixed(2);
-        console.log("AFTER", payingSum);
         passPayment.push({ payment: payingSum, is_paying_more: is_paying_more});
     }
-    console.log(passPayment);
     return passPayment;
 }
 //getPassengersPayment(31.53, 2)
@@ -64,7 +60,6 @@ function getConsumption() {
     const distancePassed = document.getElementById('cons-distance-passed').value;
 
     const consumption = (fuelUsed / distancePassed) * 100;
-    console.log(consumption);
     document.getElementById('consumption-result').value = consumption;
     document.getElementById('consumption').value = consumption;
 }

@@ -46,6 +46,10 @@
     width: 5%;
 }
 
+#on-average {
+    font-size: small;
+}
+
 @media (min-width: 900px) {
     .main {
         margin-left: 5em;
