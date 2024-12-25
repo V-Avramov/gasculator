@@ -1,5 +1,7 @@
 <head>
     <script defer src="js/fuel-cost.js"></script>
+    <title>GasCulator</title>
+    <link rel="icon" href="img/gasculator-icon.png">
 </head>
 <body>
     <%- include('./nav.ejs') %>
@@ -65,7 +67,7 @@
             </div>
             <div>
                 <button class="btn btn-primary mt-2 mb-2" onclick="calculateFuelCost(event)" type="submit">Calculate</button>
-                <div class="d-flex flex-column">
+                <div class="d-flex flex-column align-items-start">
                     <label id="label-final-result" class="d-none" for="">Total fuel cost:</label>
                     <input id="final-result" placeholder="Total fuel cost..." disabled type="number">
                     <p id="on-average" class="d-none">On average each person has to pay: <b id="on-average-price"></b></p>
