@@ -12,9 +12,11 @@ html,body{
     margin-right: 1em;
     background-color: white;
     padding: 0.5em;
-    height:fit-content;
     border-left: solid 0.3em rgba(139, 139, 139, 0.349);
     border-right: solid 0.3em rgba(139, 139, 139, 0.349);
+    display: block;
+    overflow: auto;
+    height: 100%;
 }
 
 .fuel-cost-field {
