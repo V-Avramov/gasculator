@@ -12,7 +12,7 @@ function calculateFuelCost(e) {
 
     const onAveragePayment = priceAsMoney / passengersNumber;
     document.getElementById('on-average').classList.remove('d-none');
-    document.getElementById('on-average-price').innerHTML = onAveragePayment;
+    document.getElementById('on-average-price').innerHTML = `<span class="currency-symbol">$</span>${onAveragePayment}`;
 
     const passengersPayment = getPassengersPayment(priceAsMoney, passengersNumber);
     const hasToPay = document.getElementById('has-to-pay-container');
@@ -25,8 +25,8 @@ function calculateFuelCost(e) {
         }
         hasToPay.innerHTML += `
                 <div class="image-wrapper m-2">
-                    <img class="result-img" src="img/${imgName}">
-                    <p class="has-to-pay">${pass.payment}</p>
+                    <img class="result-img dark-mode-inv-img" src="img/${imgName}">
+                    <p class="has-to-pay"><span class="currency-symbol">$</span>${pass.payment}</p>
                 </div>`;
     }
     document.getElementById('payment-schema').classList.remove('inactive-payment-schema');

@@ -1,7 +1,13 @@
 const express = require('express');
-const app = express();
+const path = require('path');
+const helmet = require('helmet');
+require('dotenv').config();
 
-app.set('view-engine');
+const app = express();
+const PORT = process.env.PORT || 9000;
+
+app.set('view-engine', 'ejs');
+
 app.use(express.urlencoded({ extended: false }));   // to parse URL-encoded bodies sent from html forms
 app.use(express.json());    // to parse JSON bodies sent from client
 
@@ -10,10 +16,20 @@ app.use('/css', express.static(__dirname + '/public/css/'));
 app.use('/img', express.static(__dirname + '/public/img/'));
 app.use('/src', express.static(__dirname + '/src/'));
 const calc = require('./src/routing/calc');
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
 try {
     app.get('/', (req, res) => calc.fuelCostScreen(req, res));
     app.get('/fuel-cost', (req, res) => calc.fuelCostScreen(req, res));
-    app.listen(9000);
 } catch (error) {
     console.error(error);
 }
+
+app.listen(9000, () => {
+    console.log('Server running');
+});

@@ -9,7 +9,9 @@
   "author": "Velin",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "helmet": "^8.1.0"
   }
 }

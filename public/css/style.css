@@ -1,34 +1,63 @@
 body {
-    background: rgb(86,108,231);
-    background: linear-gradient(90deg, rgba(86,108,231,1) 0%, rgba(172,187,245,1) 100%);
-}
-
-html,body{
-    height: 100%;
+    background: linear-gradient(135deg, #566ce7 0%, #acbbf5 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 .main {
-    margin-left: 1em;
-    margin-right: 1em;
-    background-color: white;
-    padding: 0.5em;
-    border-left: solid 0.3em rgba(139, 139, 139, 0.349);
-    border-right: solid 0.3em rgba(139, 139, 139, 0.349);
-    display: block;
-    overflow: auto;
-    height: 100%;
+    max-width: 700px;
+    margin: 2em auto;
+    background-color: #ffffff;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .fuel-cost-field {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    margin-bottom: 1.5rem;
 }
 
-.form-control input {
-    border-radius: 0%;
+.calc-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
 }
 
+input[type="number"], input[type="text"] {
+    border-radius: 6px !important;
+    padding: 0.5em;
+    font-size: 1rem;
+}
+
+.input-group-text {
+    background-color: #f0f0f0;
+    font-weight: 500;
+}
+
+button.btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+#final-result, #consumption-result {
+    border: none;
+    background-color: #f8f8f8;
+    border-radius: 6px;
+    padding: 0.5em;
+    font-size: 1rem;
+}
+
+#payment-schema p {
+    font-weight: 500;
+    margin-top: 1em;
+}
+
+#on-average {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
 .result-img {
     width: 4.5em;
     position:relative;
@@ -54,40 +83,122 @@ html,body{
     flex-wrap: wrap;
 }
 
-.input-group:has(input#distance-passed) {
-    width: max-content !important;
-}
-
 #nav-img {
-    width: 5%;
+    width: 2rem;
+    height: auto;
 }
 
-#on-average {
-    font-size: small;
+body.dark-mode {
+    background: linear-gradient(135deg, #0f111a 0%, #1a1d29 100%);
+    color: #e2e2e2;
+}
+  
+body.dark-mode .main {
+    background-color: #1f2233;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+  
+body.dark-mode .form-control {
+    background-color: #2b2e3e;
+    border: 1px solid #444;
+    color: #fff;
+}
+  
+body.dark-mode .form-control:focus {
+    border-color: #6c75f1;
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 241, 0.25);
+}
+  
+body.dark-mode .input-group-text {
+    background-color: #3b3f51;
+    color: #ccc;
+    border: 1px solid #444;
+}
+  
+body.dark-mode .btn-primary {
+    background-color: #566ce7;
+    border-color: #566ce7;
+}
+  
+body.dark-mode #final-result,
+body.dark-mode #consumption-result {
+    background-color: #2e3244;
+    color: #fff;
+}
+  
+body.dark-mode .modal-content {
+    background-color: #2b2e3e;
+    color: #fff;
+    border: 1px solid #444;
 }
 
-@media (min-width: 900px) {
-    .main {
-        margin-left: 5em;
-        margin-right: 5em;
-        padding: 1em;
-    }
-
-    .elem-with-span {
-        width: 80% !important;
-        border: 10px !important;
-    }
-
-    .fuel-cost-field {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .calc-label {
-        width: 20em;
-    }
-
-    .result-img {
-        width: 10em;
-    }
+body.dark-mode .navbar {
+    background-color: #1e1f28 !important;
+    color: #e2e2e2;
+    border-bottom: 1px solid #444;
 }
+  
+body.dark-mode .navbar a {
+    color: #e2e2e2 !important;
+}
+  
+body.dark-mode .btn-outline-dark {
+    border-color: #888;
+    color: #e2e2e2;
+}
+  
+body.dark-mode .btn-outline-dark:hover {
+    background-color: #444;
+    border-color: #666;
+}
+
+body.dark-mode .image-wrapper {
+    border: 0.3em solid #444;
+    border-radius: 10px;
+    width:fit-content;
+
+    background-color: #1e1f28 !important;
+    color: #e2e2e2;
+    border-bottom: 1px solid #444;
+}
+
+body.dark-mode .result-img {
+    border-bottom: 1px solid #444;
+}
+
+body.dark-mode .dark-mode-inv-img {
+    filter: invert(1);
+}
+
+body.dark-mode .fuel-inputs {
+    background-color: #2b2e3e;
+    color: white;
+    border: 1px solid #444;
+}
+
+body.dark-mode .offcanvas {
+    background-color: #1e1f28; /* Match navbar dark mode */
+    color: #e2e2e2;
+    border-left: 1px solid #444;
+}
+
+body.dark-mode .offcanvas-header,
+body.dark-mode .offcanvas-body {
+    background-color: #1e1f28;
+    color: #e2e2e2;
+}
+
+body.dark-mode .btn-close,
+body.dark-mode .navbar-toggler {
+    filter: invert(1); /* Make close button visible */
+}
+body.dark-mode .btn-outline-dark {
+    border-color: #888;
+    color: #e2e2e2;
+}
+
+body.dark-mode .btn-outline-dark:hover {
+    background-color: #444;
+    border-color: #666;
+}
+  

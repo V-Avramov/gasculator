@@ -9,12 +9,15 @@
         <form action="" class="">
             <div class="fuel-cost-field form-control pb-4">
                 <label for="price-per-litre" class="calc-label">Price per litre</label>
-                <input id="price-per-litre" name="price-per-litre" type="number" step="any">
+                <div class="input-group input-group-sm elem-with-span">
+                    <input id="price-per-litre" name="price-per-litre" aria-describedby="basic-addon2" type="number" step="any" class="fuel-inputs">
+                    <span class="input-group-text currency-symbol" id="basic-addon2">$</span>
+                </div>
             </div>
             <div class="fuel-cost-field form-control pb-4">
                 <label class="calc-label">Distance Passed (km)</label>
                 <div class="input-group input-group-sm elem-with-span">
-                    <input id="distance-passed" type="number" aria-describedby="basic-addon2" onchange="modifyDistancePassed()" step="any">
+                    <input id="distance-passed" type="number" aria-describedby="basic-addon2" onchange="modifyDistancePassed()" step="any" class="fuel-inputs">
                     <span class="input-group-text" id="basic-addon2">km</span>
                 </div>
             </div>
@@ -59,17 +62,22 @@
                         </div>
                     </div>
                 </div>
-                <input id="consumption" type="number" class="align-self-start" step="any">
+                <input id="consumption" type="number" class="align-self-start fuel-inputs" step="any">
             </div>
             <div class="fuel-cost-field form-control pb-4">
                 <label class="passengers calc-label">Number of passengers</label>
-                <input id="passengers-number" type="number" value="1">
+                <div class="input-group input-group-sm elem-with-span">
+                    <input id="passengers-number" type="number" value="1" class="fuel-inputs">
+                </div>
             </div>
             <div>
                 <button class="btn btn-primary mt-2 mb-2" onclick="calculateFuelCost(event)" type="submit">Calculate</button>
                 <div class="d-flex flex-column align-items-start">
                     <label id="label-final-result" class="d-none" for="">Total fuel cost:</label>
-                    <input id="final-result" placeholder="Total fuel cost..." disabled type="number">
+                    <div class="input-group input-group-sm elem-with-span">
+                        <span class="input-group-text currency-symbol" id="basic-addon2">$</span>
+                        <input id="final-result" placeholder="Total fuel cost..." disabled type="number">
+                    </div>
                     <p id="on-average" class="d-none">On average each person has to pay: <b id="on-average-price"></b></p>
                 </div>
             </div>
