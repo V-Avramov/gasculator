@@ -5,20 +5,32 @@ function calculateFuelCost(e) {
     const consumption = document.getElementById('consumption').value;
     const passengersNumber = document.getElementById('passengers-number').value;
 
+    if (
+        isNaN(pricePerLitre) ||
+        isNaN(distancePassed) ||
+        isNaN(consumption) ||
+        isNaN(passengersNumber) ||
+        passengersNumber <= 0
+    ) {
+        alert("Please fill out all fields with valid numbers.");
+        return;
+    }
+
     const totalPrice = (distancePassed / 100) * consumption * pricePerLitre
     let priceAsMoney = formatAsMoneyFull(totalPrice, true);
+    
     document.getElementById('label-final-result').classList.remove('d-none');
-    document.getElementById('final-result').value = priceAsMoney;
+    document.getElementById('final-result').value = priceAsMoney.moneyFormat;
 
-    const onAveragePayment = priceAsMoney / passengersNumber;
+    const onAveragePayment = priceAsMoney.rawMoney / passengersNumber;
+    const formattedAvg = formatAsMoneyFull(onAveragePayment, true).moneyFormat;
     document.getElementById('on-average').classList.remove('d-none');
-    document.getElementById('on-average-price').innerHTML = `<span class="currency-symbol">$</span>${onAveragePayment}`;
+    document.getElementById('on-average-price').innerHTML = `<span class="currency-symbol">$</span>${formattedAvg}`;
 
-    const passengersPayment = getPassengersPayment(priceAsMoney, passengersNumber);
+    const passengersPayment = getPassengersPayment(priceAsMoney.rawMoney, passengersNumber);
     const hasToPay = document.getElementById('has-to-pay-container');
     hasToPay.innerHTML = '';
     for (const pass of passengersPayment) {
-        console.lo
         let imgName = 'smile.svg';
         if (pass.is_paying_more) {
             imgName = 'sad.svg'
@@ -34,10 +46,15 @@ function calculateFuelCost(e) {
 
 function getPassengersPayment(totalPrice, passengersNumber) {
     const divPrice = totalPrice / passengersNumber;
-    const fixedDivPrice = formatAsMoneyFull((Math.floor(Number(divPrice) * 100) / 100), true);
-    let remainerAfterSubtract = Math.floor(Number((totalPrice - (fixedDivPrice * passengersNumber))) * 100);
+    const fixedDivPrice = formatAsMoneyFull((Math.floor(Number(divPrice) * 100) / 100), true).rawMoney;
+    let remainerAfterSubtract = Number((totalPrice - (fixedDivPrice * passengersNumber))) * 100;
+    remainerAfterSubtract = Number(remainerAfterSubtract.toFixed(2));
+    let isRemainderSameAsPassengersNumber = false;
     if (remainerAfterSubtract > passengersNumber) {
         console.error("Problem", passengersNumber, remainerAfterSubtract);
+    }
+    else if (remainerAfterSubtract == passengersNumber) {
+        isRemainderSameAsPassengersNumber = true;
     }
     const passPayment = [];
     for (let i = 0; i < passengersNumber; i++) {
@@ -45,7 +62,9 @@ function getPassengersPayment(totalPrice, passengersNumber) {
         let is_paying_more = false;
         if (remainerAfterSubtract > 0) {
             payingSum += 1;
-            is_paying_more = true;
+            if (!isRemainderSameAsPassengersNumber) {
+                is_paying_more = true;
+            }
             remainerAfterSubtract--;
         }
         payingSum = (payingSum / 100).toFixed(2);
@@ -70,21 +89,29 @@ function modifyDistancePassed() {
 
 function formatAsMoneyFull(num, hascents) {
     num = num.toString().replace(/\$|\,/g, '');
-    if (isNaN(num))
-        num = "0";
-    sign = (num == (num = Math.abs(num)));
-    cents = '';
+    if (isNaN(num)) num = "0";
+
+    const sign = Number(num) >= 0;
+    let cents = '';
+    
     if (hascents) {
         num = Math.floor(num * 100 + 0.50000000001);
         cents = num % 100;
         num = Math.floor(num / 100).toString();
-        if (cents < 10)
-            cents = "0" + cents;
+        if (cents < 10) cents = "0" + cents;
         cents = "." + cents;
     } else {
         num = Math.floor(num + 0.50000000001).toString();
     }
-    for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+
+    const rawMoney = Number(num.replace(/,/g, '') + cents);
+
+    for (let i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++) {
         num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
-    return Number(((sign) ? '' : '-') + num + cents);
+    }
+
+    return {
+        moneyFormat: (sign ? '' : '-') + num + cents,
+        rawMoney: rawMoney
+    };
 }
