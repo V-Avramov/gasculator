@@ -4,7 +4,7 @@ const helmet = require('helmet');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT;
 
 app.set('view-engine', 'ejs');
 
@@ -30,6 +30,6 @@ try {
     console.error(error);
 }
 
-app.listen(9000, () => {
+app.listen(PORT, () => {
     console.log('Server running');
 });
