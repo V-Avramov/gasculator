@@ -55,9 +55,28 @@ button.btn-primary {
 }
 
 #on-average {
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #0a58ca;
+    margin-top: 1rem;
+    border-bottom: solid;
 }
+
+body.dark-mode #on-average {
+    background-color: #2b2e3e;
+    color: #9ecfff;
+    border-bottom: solid;
+}
+
+.fade-in {
+    animation: fadeIn 0.7s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .result-img {
     width: 4.5em;
     position:relative;

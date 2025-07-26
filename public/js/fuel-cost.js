@@ -16,13 +16,13 @@ function calculateFuelCost(e) {
         return;
     }
 
-    const totalPrice = (distancePassed / 100) * consumption * pricePerLitre
+    const totalPrice = getTotalPrice(distancePassed, consumption, pricePerLitre);
     let priceAsMoney = formatAsMoneyFull(totalPrice, true);
     
     document.getElementById('label-final-result').classList.remove('d-none');
     document.getElementById('final-result').value = priceAsMoney.moneyFormat;
 
-    const onAveragePayment = priceAsMoney.rawMoney / passengersNumber;
+    const onAveragePayment = getAveragePayment(priceAsMoney.rawMoney, passengersNumber);
     const formattedAvg = formatAsMoneyFull(onAveragePayment, true).moneyFormat;
     document.getElementById('on-average').classList.remove('d-none');
     document.getElementById('on-average-price').innerHTML = `<span class="currency-symbol">$</span>${formattedAvg}`;
@@ -42,6 +42,27 @@ function calculateFuelCost(e) {
                 </div>`;
     }
     document.getElementById('payment-schema').classList.remove('inactive-payment-schema');
+}
+
+function getTotalPrice(distancePassed, consumption, pricePerLitre) {
+    if (
+        isNaN(pricePerLitre) ||
+        isNaN(distancePassed) ||
+        isNaN(consumption)
+    ) {
+        throw new Error("Incorrect input data");
+    }
+    return (distancePassed / 100) * consumption * pricePerLitre;
+}
+
+function getAveragePayment(rawMoney, passengersNumber) {
+    if (isNaN(rawMoney)
+        || isNaN(passengersNumber)
+        || passengersNumber <= 0
+    ) {
+        throw new Error("Incorrect input data");
+    }
+    return rawMoney / passengersNumber;
 }
 
 function getPassengersPayment(totalPrice, passengersNumber) {
@@ -115,3 +136,5 @@ function formatAsMoneyFull(num, hascents) {
         rawMoney: rawMoney
     };
 }
+
+module.exports = { getTotalPrice, getAveragePayment, formatAsMoneyFull, getPassengersPayment }
