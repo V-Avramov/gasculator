@@ -7,19 +7,21 @@
     <%- include('./nav.ejs') %>
     <div class="main">
         <form action="" class="">
-            <div class="fuel-cost-field form-control pb-4">
+            <div class="fuel-cost-field form-control pb-4 has-validation">
                 <label for="price-per-litre" class="calc-label">Price per litre</label>
                 <div class="input-group input-group-sm elem-with-span">
                     <input id="price-per-litre" name="price-per-litre" aria-describedby="basic-addon2" type="number" step="any" class="fuel-inputs">
                     <span class="input-group-text currency-symbol" id="basic-addon2">$</span>
                 </div>
+                <div class="invalid-price-per-litre d-none text-danger" id="error-price-per-litre">Please enter a valid price.</div>
             </div>
-            <div class="fuel-cost-field form-control pb-4">
+            <div class="fuel-cost-field form-control pb-4 has-validation">
                 <label class="calc-label">Distance Passed (km)</label>
                 <div class="input-group input-group-sm elem-with-span">
                     <input id="distance-passed" type="number" aria-describedby="basic-addon2" onchange="modifyDistancePassed()" step="any" class="fuel-inputs">
                     <span class="input-group-text" id="basic-addon2">km</span>
                 </div>
+                <div class="invalid-distance-passed d-none text-danger" id="error-distance-passed">Please enter a valid distance.</div>
             </div>
             <div class="fuel-cost-field form-control">
                 <div class="d-flex flex-column">
@@ -36,19 +38,21 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div>
+                                    <div class="has-validation">
                                         <label class="calc-label">Fuel used (litres)</label>
                                         <div class="input-group mb-3 ">
                                             <input id="fuel-used" type="number" class="form-control" aria-describedby="basic-addon2" step="any">
                                             <span class="input-group-text" id="basic-addon2">litres</span>
                                         </div>
+                                        <div class="invalid-fuel-used d-none text-danger" id="error-fuel-used">Please enter a valid fuel used.</div>
                                     </div>
-                                    <div>
+                                    <div class="has-validation">
                                         <label class="calc-label">Distance Passed (km)</label>
                                         <div class="input-group mb-3">
                                             <input id="cons-distance-passed" type="number" aria-describedby="basic-addon2" class="form-control" step="any">
                                             <span class="input-group-text" id="basic-addon2">km</span>
                                         </div>
+                                        <div class="invalid-cons-distance-passed d-none text-danger" id="error-cons-distance-passed">Please enter a valid distance.</div>
                                     </div>
                                     <button type="button" class="btn btn-primary mt-2" onclick="getConsumption()">Get Consumption</button>
                                     <div class="mt-2 mb-1">
@@ -62,13 +66,17 @@
                         </div>
                     </div>
                 </div>
-                <input id="consumption" type="number" class="align-self-start fuel-inputs" step="any">
+                <div class="has-validation">
+                    <input id="consumption" type="number" class="align-self-start fuel-inputs" step="any">
+                </div>
+                <div class="invalid-consumption d-none text-danger" id="error-consumption">Please enter a valid consumption.</div>
             </div>
-            <div class="fuel-cost-field form-control pb-4">
+            <div class="fuel-cost-field form-control pb-4 has-validation">
                 <label class="passengers calc-label">Number of passengers</label>
                 <div class="input-group input-group-sm elem-with-span">
                     <input id="passengers-number" type="number" value="1" class="fuel-inputs">
                 </div>
+                <div class="invalid-passengers-number d-none text-danger" id="error-passengers-number">Please enter a valid passenger number.</div>
             </div>
             <div>
                 <button class="btn btn-primary mt-2 mb-2" onclick="calculateFuelCost(event)" type="submit">Calculate</button>

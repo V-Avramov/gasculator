@@ -1,3 +1,47 @@
+function hasInvalidFields(inputs) {
+    const hasValidationFields = document.querySelectorAll('.has-validation');
+    let hasError = false;
+
+    for (const hasValidF of hasValidationFields) {
+        const validateField = hasValidF.querySelector('input');
+        for (const inputToValidate of inputs) {
+            let errorInCurrInput = false;
+            if (validateField.id != inputToValidate.id) {
+                continue;
+            }
+            if (inputToValidate.value == null) {
+                inputToValidate.value = validateField.value;
+            }
+            const errorElem = document.getElementById(`error-${inputToValidate.id}`);
+            if (inputToValidate.isRequired && (inputToValidate.value == null || inputToValidate.value == '')) {
+                errorElem.innerHTML = 'This field is required';
+                errorInCurrInput = true;
+            }
+            if (validateField.type == 'number') {
+                if (isNaN(inputToValidate.value)) {
+                    errorInCurrInput = true;
+                    errorElem.innerHTML = 'Should be a number';
+                }
+                else if (inputToValidate.minConstraint != null && inputToValidate.value < inputToValidate.minConstraint) {
+                    errorInCurrInput = true;
+                    errorElem.innerHTML = `This field should be > ${inputToValidate.minConstraint}`;
+                }
+                else if (inputToValidate.maxConstraint != null && inputToValidate.value > inputToValidate.maxConstraint) {
+                    errorInCurrInput = true;
+                    errorElem.innerHTML = `This field should be < ${inputToValidate.maxConstraint}`;
+                }
+            }
+            if (errorInCurrInput) {
+                errorElem.classList.remove('d-none');
+                hasError = true;
+            }
+            else {
+                errorElem.classList.add('d-none');
+            }
+        }
+    }
+    return hasError;
+}
 function calculateFuelCost(e) {
     e.preventDefault();
     const pricePerLitre = document.getElementById('price-per-litre').value;
@@ -5,14 +49,31 @@ function calculateFuelCost(e) {
     const consumption = document.getElementById('consumption').value;
     const passengersNumber = document.getElementById('passengers-number').value;
 
-    if (
-        isNaN(pricePerLitre) ||
-        isNaN(distancePassed) ||
-        isNaN(consumption) ||
-        isNaN(passengersNumber) ||
-        passengersNumber <= 0
-    ) {
-        alert("Please fill out all fields with valid numbers.");
+    const validationInputs = [
+        {
+            id: 'price-per-litre',
+            isRequired: true,
+            value: pricePerLitre,
+            minConstraint: 0,
+        },
+        {
+            id : 'distance-passed',
+            isRequired: true,
+            minConstraint: 0,
+        },
+        {
+            id : 'consumption',
+            isRequired: true,
+            minConstraint: 0,
+        },
+        {
+            id : 'passengers-number',
+            isRequired: true,
+            minConstraint: 0,
+            maxConstraint: 100,
+        },
+    ];
+    if (hasInvalidFields(validationInputs)) {
         return;
     }
 
@@ -99,7 +160,27 @@ function getConsumption() {
     const fuelUsed = document.getElementById('fuel-used').value;
     const distancePassed = document.getElementById('cons-distance-passed').value;
 
+    const validationInputs = [
+        {
+            id: 'fuel-used',
+            isRequired: true,
+            value: fuelUsed,
+            minConstraint: 0,
+        },
+        {
+            id : 'cons-distance-passed',
+            isRequired: true,
+            value: distancePassed,
+            minConstraint: 0,
+        },
+    ];
+
+    if (hasInvalidFields(validationInputs)) {
+        return;
+    }
+    console.log("fuel", fuelUsed, "distance", distancePassed);
     const consumption = (fuelUsed / distancePassed) * 100;
+    console.log(consumption);
     document.getElementById('consumption-result').value = consumption;
     document.getElementById('consumption').value = consumption;
 }
@@ -137,4 +218,11 @@ function formatAsMoneyFull(num, hascents) {
     };
 }
 
-module.exports = { getTotalPrice, getAveragePayment, formatAsMoneyFull, getPassengersPayment }
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = {
+        getTotalPrice,
+        getAveragePayment,
+        formatAsMoneyFull,
+        getPassengersPayment
+    };
+}
