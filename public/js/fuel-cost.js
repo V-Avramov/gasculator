@@ -44,6 +44,9 @@ function hasInvalidFields(inputs) {
 }
 function calculateFuelCost(e) {
     e.preventDefault();
+    const paymentSchema = document.getElementById('payment-schema');
+    paymentSchema.classList.add('inactive-payment-schema');
+
     const pricePerLitre = document.getElementById('price-per-litre').value;
     const distancePassed = document.getElementById('distance-passed').value;
     const consumption = document.getElementById('consumption').value;
@@ -79,16 +82,31 @@ function calculateFuelCost(e) {
 
     const totalPrice = getTotalPrice(distancePassed, consumption, pricePerLitre);
     let priceAsMoney = formatAsMoneyFull(totalPrice, true);
-    
-    document.getElementById('label-final-result').classList.remove('d-none');
-    document.getElementById('final-result').value = priceAsMoney.moneyFormat;
-
     const onAveragePayment = getAveragePayment(priceAsMoney.rawMoney, passengersNumber);
-    const formattedAvg = formatAsMoneyFull(onAveragePayment, true).moneyFormat;
+    const avg = formatAsMoneyFull(onAveragePayment, true);
+    
+    showFuelCostData({ priceAsMoney: priceAsMoney, passengersNumber: passengersNumber, paymentSchema: paymentSchema });
+    saveToHistory({ 
+        pricePerLitre: pricePerLitre, 
+        distancePassed: distancePassed, 
+        consumption: consumption, 
+        passengersNumber: passengersNumber,
+        fuelUsed: document.getElementById('fuel-used').value,
+        finalResult: priceAsMoney,
+        onAveragePrice: avg,
+    });
+}
+
+function showFuelCostData(params) {
+    document.getElementById('label-final-result').classList.remove('d-none');
+    document.getElementById('final-result').value = params.priceAsMoney.moneyFormat;
+
+    const onAveragePayment = params.onAveragePrice != null ? params.onAveragePrice.rawMoney : getAveragePayment(params.priceAsMoney.rawMoney, params.passengersNumber);
+    const formattedAvg = params.onAveragePrice != null ? params.onAveragePrice.moneyFormat : formatAsMoneyFull(onAveragePayment, true).moneyFormat;
     document.getElementById('on-average').classList.remove('d-none');
     document.getElementById('on-average-price').innerHTML = `<span class="currency-symbol">$</span>${formattedAvg}`;
 
-    const passengersPayment = getPassengersPayment(priceAsMoney.rawMoney, passengersNumber);
+    const passengersPayment = getPassengersPayment(params.priceAsMoney.rawMoney, params.passengersNumber);
     const hasToPay = document.getElementById('has-to-pay-container');
     hasToPay.innerHTML = '';
     for (const pass of passengersPayment) {
@@ -102,7 +120,7 @@ function calculateFuelCost(e) {
                     <p class="has-to-pay"><span class="currency-symbol">$</span>${pass.payment}</p>
                 </div>`;
     }
-    document.getElementById('payment-schema').classList.remove('inactive-payment-schema');
+    params.paymentSchema.classList.remove('inactive-payment-schema');
 }
 
 function getTotalPrice(distancePassed, consumption, pricePerLitre) {
@@ -216,6 +234,68 @@ function formatAsMoneyFull(num, hascents) {
         moneyFormat: (sign ? '' : '-') + num + cents,
         rawMoney: rawMoney
     };
+}
+
+function saveToHistory(params) {
+    //TODO Add login logic
+    //NOTE for now we store only in local storage
+
+    const fuelCostInputs = {
+        pricePerLitre: {
+            id: 'price-per-litre',
+            value: params.pricePerLitre,
+        },
+        distancePassed: {
+            id : 'distance-passed',
+            value: params.distancePassed,
+        },
+        consumption: {
+            id : 'consumption',
+            value: params.consumption,
+        },
+        passengersNumber: {
+            id : 'passengers-number',
+            value: params.passengersNumber,
+        },
+        fuelUsed: {
+            id: 'fuel-used',
+            value: params.fuelUsed,
+        },
+        finalResult: {
+            id: 'final-result',
+            value: params.finalResult.moneyFormat,
+            hValue: params.finalResult,
+        },
+        onAveragePrice: {
+            id: 'on-average-price',
+            value: params.onAveragePrice.moneyFormat,
+            hValue: params.onAveragePrice,
+        }
+    };
+    //TODO receive data from backend for logged in users
+    let fuelCosts = localStorage.getItem('fuelCostsHistory');
+    try {
+        fuelCosts = JSON.parse(fuelCosts) ?? [];
+    } catch (e) {
+        console.error(e);
+        fuelCosts = [];
+    }
+    fuelCosts.push(fuelCostInputs);
+    if (fuelCosts.length > 10) { //NOTE Hardcoded limit, must change it probably
+        fuelCosts.shift();
+    }
+    localStorage.setItem('fuelCostsHistory', JSON.stringify(fuelCosts));
+}
+
+function loadHistory(index) {
+    let fuelCosts = localStorage.getItem('fuelCostsHistory');
+    try {
+        fuelCosts = JSON.parse(fuelCosts);
+    } catch (e) {
+        console.error(e);
+    }
+
+    console.log(fuelCosts[index]);
 }
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {

@@ -80,21 +80,20 @@
             </div>
             <div>
                 <button class="btn btn-primary mt-2 mb-2" onclick="calculateFuelCost(event)" type="submit">Calculate</button>
-                <div class="d-flex flex-column align-items-start">
-                    <label id="label-final-result" class="d-none" for="">Total fuel cost:</label>
-                    <div class="input-group input-group-sm elem-with-span">
-                        <span class="input-group-text currency-symbol" id="basic-addon2">$</span>
-                        <input id="final-result" placeholder="Total fuel cost..." disabled type="text">
-                    </div>
-                    <p id="on-average" class="d-none">On average each person has to pay: <b id="on-average-price"></b></p>
-                    <div id="on-average" class="d-none alert alert-info mt-3 fs-5 p-3 text-center shadow-sm">
-                        💰 On average each person has to pay: <b id="on-average-price" class="text-primary"></b>
-                    </div>
-
-                </div>
             </div>
         </form>
         <div id="payment-schema" class="mt-3 inactive-payment-schema">
+            <div class="d-flex flex-column align-items-start">
+                <label id="label-final-result" class="d-none" for="">Total fuel cost:</label>
+                <div class="input-group input-group-sm elem-with-span">
+                    <span class="input-group-text currency-symbol" id="basic-addon2">$</span>
+                    <input id="final-result" placeholder="Total fuel cost..." disabled type="text">
+                </div>
+                <div id="on-average" class="d-none alert alert-info mt-3 fs-5 p-3 text-center shadow-sm">
+                    💰 On average each person has to pay: <b id="on-average-price"></b>
+                </div>
+
+            </div>
             <p>Each person has to pay the below price</p>
             <div id="has-to-pay-container">
             </div>

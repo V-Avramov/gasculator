@@ -68,6 +68,10 @@ body.dark-mode #on-average {
     border-bottom: solid;
 }
 
+#on-average-price {
+    color: #566ce7;
+}
+
 .fade-in {
     animation: fadeIn 0.7s ease-in-out forwards;
 }
