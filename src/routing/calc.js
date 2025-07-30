@@ -3,7 +3,7 @@ function homeScreen(req, res) {
 }
 
 function fuelCostScreen(req, res) {
-    res.render('fuel-cost.ejs');
+    res.render('fuel-cost.ejs', { path: 'fuel-cost' });
 }
 
 module.exports = {

@@ -10,4 +10,7 @@ function toggleDarkMode() {
       document.body.classList.add('dark-mode');
     }
   });
-  
+
+document.getElementById('side-navbar-close').addEventListener('click', () => {
+  document.getElementById('mobile-history-sidebar').classList.add('d-none')
+});

@@ -19,14 +19,28 @@
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasNavbarLabel"></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button id="side-navbar-close" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-2">
+            <% if (typeof path !== 'undefined' && path === 'fuel-cost') { %>
+              <li class="nav-item d-none d-lg-block">
+                <!-- Desktop -->
+                <button id="show-history-btn" class="btn btn-outline-dark ms-lg-3 mt-2 mt-lg-0">History</button>
+              </li>
+              <li class="nav-item d-block d-lg-none">
+                <!-- Mobile (adds to offcanvas body) -->
+                <button class="btn btn-outline-dark ms-lg-3 mt-2 mt-lg-0" onclick="showHistoryMobile()">History</button>
+              </li>
+            <% } %>
             <li class="nav-item">
                 <button class="btn btn-outline-dark ms-lg-3 mt-2 mt-lg-0" onclick="toggleDarkMode()">Toggle Dark Mode</button>
             </li>
           </ul>
+          <div id="mobile-history-sidebar" class="mobile-history-sidebar mt-3 d-none">
+            <h6>Recent Trips</h6>
+            <ul id="mobile-history-list" class="list-group"></ul>
+          </div>
         </div>
       </div>
     </div>

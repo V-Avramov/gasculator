@@ -42,7 +42,7 @@ function hasInvalidFields(inputs) {
     }
     return hasError;
 }
-function calculateFuelCost(e) {
+function calculateFuelCost(e, isLoaded) {
     e.preventDefault();
     const paymentSchema = document.getElementById('payment-schema');
     paymentSchema.classList.add('inactive-payment-schema');
@@ -86,15 +86,19 @@ function calculateFuelCost(e) {
     const avg = formatAsMoneyFull(onAveragePayment, true);
     
     showFuelCostData({ priceAsMoney: priceAsMoney, passengersNumber: passengersNumber, paymentSchema: paymentSchema });
-    saveToHistory({ 
-        pricePerLitre: pricePerLitre, 
-        distancePassed: distancePassed, 
-        consumption: consumption, 
-        passengersNumber: passengersNumber,
-        fuelUsed: document.getElementById('fuel-used').value,
-        finalResult: priceAsMoney,
-        onAveragePrice: avg,
-    });
+    if (!isLoaded) {
+        saveToHistory({ 
+            pricePerLitre: pricePerLitre, 
+            distancePassed: distancePassed, 
+            consumption: consumption, 
+            passengersNumber: passengersNumber,
+            fuelUsed: document.getElementById('fuel-used').value,
+            finalResult: priceAsMoney,
+            onAveragePrice: avg,
+        });
+
+        renderHistory();
+    }
 }
 
 function showFuelCostData(params) {
@@ -287,16 +291,83 @@ function saveToHistory(params) {
     localStorage.setItem('fuelCostsHistory', JSON.stringify(fuelCosts));
 }
 
+function renderHistory(device) {
+    const historyList = document.getElementById(`${device ?? ''}history-list`);
+
+    if (!historyList) return;
+
+    let fuelCosts = localStorage.getItem('fuelCostsHistory');
+    try {
+        fuelCosts = JSON.parse(fuelCosts) ?? [];
+    } catch (e) {
+        fuelCosts = [];
+    }
+
+    historyList.innerHTML = ''; // Clear old list
+
+    fuelCosts.reverse().forEach((item, index) => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item d-flex justify-content-between align-items-center history-element';
+
+        const label = `Trip: ${item.distancePassed.value}km, $${item.finalResult.value}`;
+        li.textContent = label;
+
+        const loadBtn = document.createElement('button');
+        loadBtn.className = 'btn btn-sm btn-outline-primary';
+        loadBtn.textContent = 'Load';
+        loadBtn.onclick = () => loadHistory(fuelCosts.length - 1 - index);
+
+        li.appendChild(loadBtn);
+        historyList.appendChild(li);
+    });
+}
+
+
 function loadHistory(index) {
     let fuelCosts = localStorage.getItem('fuelCostsHistory');
     try {
         fuelCosts = JSON.parse(fuelCosts);
     } catch (e) {
         console.error(e);
+        return;
     }
 
-    console.log(fuelCosts[index]);
+    const data = fuelCosts[index];
+    if (!data) return;
+
+    for (const key in data) {
+        const el = document.getElementById(data[key].id);
+        if (el) el.value = data[key].value;
+    }
+
+    calculateFuelCost(new Event('submit'), true);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('show-history-btn');
+    const sidebar = document.getElementById('history-sidebar');
+    if (btn && sidebar) {
+        btn.addEventListener('click', () => {
+            sidebar.classList.toggle('d-none');
+        });
+    }
+
+    renderHistory(); // show history items
+});
+
+function showHistoryMobile() {
+    const container = document.getElementById('mobile-history-sidebar');
+    const list = document.getElementById('mobile-history-list');
+
+    // Clear previous items
+    list.innerHTML = '';
+
+    renderHistory('mobile-');
+
+    // Show the container
+    container.classList.toggle('d-none');
+}
+
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = {

@@ -224,4 +224,46 @@ body.dark-mode .btn-outline-dark:hover {
     background-color: #444;
     border-color: #666;
 }
-  
+
+.history-sidebar {
+    position: fixed;
+    top: 56px; /* Bootstrap default navbar height */
+    left: 0;
+    width: 280px;
+    height: calc(100% - 56px); /* Exclude navbar height */
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    z-index: 1040;
+}
+
+.history-sidebar .list-group-item {
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+body.dark-mode .history-sidebar {
+    background-color: #1e1f28;
+    color: #e2e2e2;
+    border-right: 1px solid #444;
+}
+
+body.dark-mode .history-sidebar .history-element {
+    background-color: #1e1f28;
+    color: #e2e2e2;
+    border: 1px solid #444;
+}
+
+body.dark-mode .mobile-history-sidebar {
+    top: 1em;
+    background-color: #1e1f28;
+    color: #e2e2e2;
+    border-right: 1px solid #444;
+}
+
+body.dark-mode .mobile-history-sidebar .history-element {
+    background-color: #1e1f28;
+    color: #e2e2e2;
+    border: 1px solid #444;
+}
