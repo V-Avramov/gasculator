@@ -318,8 +318,22 @@ function renderHistory(device) {
         loadBtn.onclick = () => loadHistory(fuelCosts.length - 1 - index);
 
         li.appendChild(loadBtn);
+
+        // const removeBtn = document.createElement('button');
+        // removeBtn.className = 'btn btn-sm btn-outline-danger';
+        // removeBtn.textContent = 'X';
+
+        // li.appendChild(removeBtn);
+        
         historyList.appendChild(li);
     });
+    if (fuelCosts.length > 0) {
+        const clearHistoryBtn = document.createElement('button');
+        clearHistoryBtn.className = 'btn btn-sm btn-secondary mt-2';
+        clearHistoryBtn.textContent = 'Clear History';
+        clearHistoryBtn.onclick = () => clearHistory(device);
+        historyList.appendChild(clearHistoryBtn);
+    }
 }
 
 
@@ -341,6 +355,14 @@ function loadHistory(index) {
     }
 
     calculateFuelCost(new Event('submit'), true);
+}
+
+function clearHistory(device, index) {
+    if (!index) {
+        localStorage.removeItem('fuelCostsHistory');
+        renderHistory(device);
+        return;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

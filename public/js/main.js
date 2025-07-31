@@ -1,4 +1,3 @@
-// Call this in your main JS
 function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
     localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
@@ -9,8 +8,19 @@ function toggleDarkMode() {
     if (localStorage.getItem('darkMode') === 'true') {
       document.body.classList.add('dark-mode');
     }
-  });
+    const offcanvasEl = document.getElementById('offcanvasNavbar');
 
-document.getElementById('side-navbar-close').addEventListener('click', () => {
-  document.getElementById('mobile-history-sidebar').classList.add('d-none')
-});
+    if (offcanvasEl) {
+      offcanvasEl.addEventListener('hide.bs.offcanvas', function () {
+        const mobileHistory = document.getElementById('mobile-history-sidebar');
+        if (mobileHistory) {
+          mobileHistory.classList.add('d-none'); // Hide mobile history list on close
+        }
+      });
+
+      // offcanvasEl.addEventListener('show.bs.offcanvas', function () {
+      //   console.log('Offcanvas is shown');
+      //   // Optional: custom actions on open
+      // });
+    }
+  });
