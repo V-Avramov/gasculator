@@ -6,7 +6,13 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT;
 
-app.set('view-engine', 'ejs');
+app.set('view engine', 'ejs');
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // disables strict CSP that blocks inline JS
+  })
+);
 
 app.use(express.urlencoded({ extended: false }));   // to parse URL-encoded bodies sent from html forms
 app.use(express.json());    // to parse JSON bodies sent from client
@@ -29,6 +35,19 @@ try {
 } catch (error) {
     console.error(error);
 }
+
+app.use((req, res) => {
+    res.status(404).render('error.ejs', { message: 'Page not found' });
+});
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    if (process.env.NODE_ENV === 'production') {
+        res.status(500).render('error.ejs', { message: 'Something went wrong!' });
+    } else {
+        res.status(500).send(err.stack);
+    }
+});
 
 app.listen(PORT, () => {
     console.log('Server running');
